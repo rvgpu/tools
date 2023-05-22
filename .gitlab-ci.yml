@@ -1,0 +1,5 @@
+deploy-job:
+  stage: deploy
+  script:
+    - echo "Deploy tools to ubuntu-server-01"
+    - rsync -rat * ci@ubuntu-server-01:/home/rvgpu/tools/
