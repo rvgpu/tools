@@ -131,7 +131,19 @@ done
 # check current path and build project
 case ${curr_pathname} in
     rvgpu)
-        echo "TODO build all"
+        echo "Build All projects under rvgpu"
+        # build llvm
+        llvm_dir=${curr_path}/rvgpu-llvm
+        build_dir=${curr_path}/build/rvgpu-llvm
+        build_llvm
+        # build mesa
+        mesa_dir=${curr_path}/rvgpu-mesa
+        build_dir=${curr_path}/build/rvgpu-mesa
+        build_mesa
+        # build cmodel
+        cmodel_dir=${curr_path}/rvgpu-cmodel
+        build_dir=${curr_path}/build/rvgpu-cmodel
+        build_cmodel
         ;;
     rvgpu-llvm)
         llvm_dir=${curr_path}
