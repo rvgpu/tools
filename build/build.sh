@@ -9,14 +9,43 @@
 #
 # 此脚本将自动识别当前路径，如果当前路径位于rvgpu下的目录，则将构建当前的项目,
 # 项目路径包括如下：
-#  rvgpu:       构建所有的rvgpu子项目, 将安装到./install路径下
-#  rvgpu-llvm:  构建rvgpu-llvm子项目，将安装到./install路径下
+#  rvgpu:       构建所有的rvgpu子项目, 默认将安装到./install路径下
+#  rvgpu-llvm:  构建rvgpu-llvm子项目，默认将安装到./install路径下
+#  rvgpu-mesa:  构建rvgpu-mesa子项目，默认将安装到./install路径下
 
+function build_mesa
+{   
+    echo "####################################################"
+    echo "# Start build mesa"
+    
+    if [ -f ${mesa_dir}/README.md ]; then
+        if [ ! -d ${build_dir} ]; then
+            meson ${build_dir} ${mesa_dir} \
+                -Dprefix=${install_dir} \
+                -Dgallium-drivers=  \
+                -Dvulkan-drivers=rvgpu \
+                -Dplatforms=x11 \
+                -Dglx=disabled \
+                -Dbuildtype=debug \
+                -Dlibdir=lib
+        fi
+        ninja -C ${build_dir} install
+
+        if [ $? -ne 0 ]; then
+            echo "build rvgpu-mesa failed and exit"
+            exit -1
+        fi
+    else
+        echo "rvgpu-mesa is a illegal repos under this project"
+    fi
+    echo "# build mesa done"
+    echo "####################################################"
+}
 
 function build_llvm
 {
     echo "####################################################"
-    echo "# Begin to build LLVM"
+    echo "# Start build LLVM"
 
     if [ -f ${llvm_dir}/README.md ]; then
         if [ ! -d ${build_dir} ]; then
@@ -86,7 +115,9 @@ case ${curr_pathname} in
         build_llvm
         ;;
     rvgpu-mesa)
-        echo "TODO build mesa"
+        mesa_dir=${curr_path}
+        build_dir=${curr_path}/build
+        build_mesa
         ;;
     rvgpu-cmodel)
         echo "TODO build cmodel"
