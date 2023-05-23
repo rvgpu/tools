@@ -21,7 +21,7 @@ function build_cmodel
     if [ -f ${cmodel_dir}/README.md ]; then
         if [ ! -d ${build_dir} ]; then
             mkdir -p ${build_dir} 
-            cmake -B ${build_dir} ${cmodel_dir} -DCMAKE_INSTALL_PREFIX=${install_dir} -DCMAKE_BUILD_TYPE=debug
+            cmake -B ${build_dir} ${cmodel_dir} -DCMAKE_INSTALL_PREFIX=${install_dir} -DCMAKE_BUILD_TYPE=${buildtype}
         fi
         cmake --build ${build_dir}
         if [ $? -ne 0 ]; then
@@ -50,7 +50,7 @@ function build_mesa
                 -Dvulkan-drivers=rvgpu \
                 -Dplatforms=x11 \
                 -Dglx=disabled \
-                -Dbuildtype=debug \
+                -Dbuildtype=${buildtype} \
                 -Dlibdir=lib
         fi
         ninja -C ${build_dir} install
@@ -78,7 +78,7 @@ function build_llvm
                   -B ${build_dir} \
                   -G "Ninja" \
                   -DCMAKE_INSTALL_PREFIX=${install_dir} \
-                  -DCMAKE_BUILD_TYPE=debug \
+                  -DCMAKE_BUILD_TYPE=${buildtype} \
                   -DBUILD_SHARED_LIBS=on \
                   -DLLVM_ENABLE_PROJECTS="clang" \
                   -DLLVM_TARGETS_TO_BUILD=RISCV \
@@ -104,9 +104,10 @@ curr_path=${PWD}
 curr_pathname=`basename ${PWD}`
 
 install_dir=${curr_path}/install
+buildtype=debug
 
 ## Parse Options
-OPTIONS=`getopt -o h --long help,prefix: -n 'example.bash' -- "$@"`
+OPTIONS=`getopt -o h --long help,release,prefix: -n 'example.bash' -- "$@"`
 
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
 
@@ -117,8 +118,15 @@ while true; do
         -h|--help) 
             echo "Usage:" 
             echo "  /tools/build/build.sh [options]"
-            echo "      --prefix dir : 指定安装路径"
-            shift ;;
+            echo "      --prefix dir : 指定安装路径，默认是./install"
+            echo "      --release    : 指定构建为release模式，默认是debug"
+            # print help information only, then exit with 0
+            exit 0
+            ;;
+        --release)
+            echo "build type: debug"
+            buildtype=release
+            shift 1 ;;
         --prefix) 
             echo "install prefix: $2" 
             install_dir=$2
