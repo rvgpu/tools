@@ -9,9 +9,33 @@
 #
 # 此脚本将自动识别当前路径，如果当前路径位于rvgpu下的目录，则将构建当前的项目,
 # 项目路径包括如下：
-#  rvgpu:       构建所有的rvgpu子项目, 默认将安装到./install路径下
-#  rvgpu-llvm:  构建rvgpu-llvm子项目，默认将安装到./install路径下
-#  rvgpu-mesa:  构建rvgpu-mesa子项目，默认将安装到./install路径下
+#  rvgpu:           构建所有的rvgpu子项目, 默认将安装到./install路径下
+#  rvgpu-llvm:      构建rvgpu-llvm子项目，默认将安装到./install路径下
+#  rvgpu-mesa:      构建rvgpu-mesa子项目，默认将安装到./install路径下
+#  rvgpu-cmodel:    构建rvgpu-cmodel子项目，默认将安装到./install路径下
+
+function build_cmodel
+{   
+    echo "####################################################"
+    echo "# Start build rvgsim"
+    if [ -f ${cmodel_dir}/README.md ]; then
+        if [ ! -d ${build_dir} ]; then
+            mkdir -p ${build_dir} 
+            cmake -B ${build_dir} ${cmodel_dir} -DCMAKE_INSTALL_PREFIX=${install_dir} -DCMAKE_BUILD_TYPE=debug
+        fi
+        cmake --build ${build_dir}
+        if [ $? -ne 0 ]; then
+            echo "build rvgpu-sim failed and exit"
+            exit -1
+        fi
+
+        cmake --install ${build_dir}
+    else
+        echo "rvgpu-cmodel is a illegal repos under this project"
+    fi
+    echo "# build rvgsim done"
+    echo "####################################################"
+}
 
 function build_mesa
 {   
@@ -120,7 +144,9 @@ case ${curr_pathname} in
         build_mesa
         ;;
     rvgpu-cmodel)
-        echo "TODO build cmodel"
+        cmodel_dir=${curr_path}
+        build_dir=${curr_path}/build
+        build_cmodel
         ;;
     *)
         echo "Error project path"
