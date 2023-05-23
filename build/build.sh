@@ -50,14 +50,47 @@ function build_llvm
 curr_path=${PWD}
 curr_pathname=`basename ${PWD}`
 
-if [ $curr_pathname == "rvgpu" ]; then
-    echo "Build all project"
-    # TODO build_all
-elif [ $curr_pathname == "rvgpu-llvm" ]; then
-    llvm_dir=${curr_path}
-    build_dir=${curr_path}/build
-    install_dir=${curr_path}/install
-    build_llvm
-else
-    echo "TODO"
-fi
+install_dir=${curr_path}/install
+
+## Parse Options
+OPTIONS=`getopt -o h --long help,prefix: -n 'example.bash' -- "$@"`
+
+if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+
+eval set -- "$OPTIONS"
+
+while true; do
+    case "$1" in
+        -h|--help) 
+            echo "Usage:" 
+            echo "  /tools/build/build.sh [options]"
+            echo "      --prefix dir : 指定安装路径"
+            shift ;;
+        --prefix) 
+            echo "install prefix: $2" 
+            install_dir=$2
+            shift 2 ;;
+        --) shift ; break ;;
+        *) echo "Internal error!" ; exit 1 ;;
+    esac
+done
+
+# check current path and build project
+case ${curr_pathname} in
+    rvgpu)
+        echo "TODO build all"
+        ;;
+    rvgpu-llvm)
+        llvm_dir=${curr_path}
+        build_dir=${curr_path}/build
+        build_llvm
+        ;;
+    rvgpu-mesa)
+        echo "TODO build mesa"
+        ;;
+    rvgpu-cmodel)
+        echo "TODO build cmodel"
+        ;;
+    *)
+        echo "Error project path"
+esac
