@@ -14,6 +14,14 @@
 #  rvgpu-mesa:      构建rvgpu-mesa子项目，默认将安装到./install路径下
 #  rvgpu-cmodel:    构建rvgpu-cmodel子项目，默认将安装到./install路径下
 
+function print_help
+{
+    echo "Usage:" 
+    echo "  /tools/build/build.sh [options]"
+    echo "      --prefix dir : 指定安装路径，默认是./install"
+    echo "      --release    : 指定构建为release模式，默认是debug"
+}
+
 function build_cmodel
 {   
     echo "####################################################"
@@ -116,25 +124,29 @@ eval set -- "$OPTIONS"
 while true; do
     case "$1" in
         -h|--help) 
-            echo "Usage:" 
-            echo "  /tools/build/build.sh [options]"
-            echo "      --prefix dir : 指定安装路径，默认是./install"
-            echo "      --release    : 指定构建为release模式，默认是debug"
+            print_help
             # print help information only, then exit with 0
             exit 0
             ;;
         --release)
-            echo "build type: debug"
             buildtype=release
             shift 1 ;;
         --prefix) 
-            echo "install prefix: $2" 
             install_dir=$2
             shift 2 ;;
-        --) shift ; break ;;
-        *) echo "Internal error!" ; exit 1 ;;
+        --) 
+            shift
+            break;;
+        *) 
+            print_help
+            exit 0
+            ;;
     esac
 done
+
+echo "Prams info"
+echo "build type:     ${buildtype}"
+echo "install prefix: ${install_dir}"
 
 # check current path and build project
 case ${curr_pathname} in
