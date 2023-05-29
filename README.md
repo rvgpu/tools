@@ -5,5 +5,12 @@
 
 比如，如果要使用 build/build.sh脚本的时候，只需要使用:
 ```
-/rvgpu/build/build.sh xxx
+/rvgpu/tools/build/build.sh
 ```
+
+
+# 工具介绍
+
+| 工具 | 介绍 |
+|:-|:-|
+| build/build.sh | 用于构建仓库，可以直接在rvgpu仓库或子仓库路径下运行，脚本将根据当前所在的路径编译当前路径的工程 |
