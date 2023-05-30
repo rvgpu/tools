@@ -54,8 +54,8 @@ function build_mesa
         if [ ! -d ${build_dir} ]; then
             meson ${build_dir} ${mesa_dir} \
                 -Dprefix=${install_dir} \
-                -Dgallium-drivers=  \
-                -Dvulkan-drivers=rvgpu \
+                -Dgallium-drivers=swrast  \
+                -Dvulkan-drivers=rvgpu,swrast \
                 -Dplatforms=x11 \
                 -Dglx=disabled \
                 -Dbuildtype=${buildtype} \
