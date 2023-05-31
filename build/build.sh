@@ -57,7 +57,7 @@ function build_mesa
                 -Dgallium-drivers=swrast  \
                 -Dvulkan-drivers=rvgpu,swrast \
                 -Dplatforms=x11 \
-                -Dglx=disabled \
+                -Dglx=dri \
                 -Dbuildtype=${buildtype} \
                 -Dlibdir=lib
         fi
