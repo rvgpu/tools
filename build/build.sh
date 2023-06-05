@@ -107,6 +107,37 @@ function build_llvm
     echo "####################################################"
 }
 
+function build_qemu
+{
+    echo "####################################################"
+    echo "# Start build QEMU"
+
+    if [ -f ${qemu_dir}/README.rst ]; then
+        if [ ! -d ${qemu_dir}/hw/gpu/rvgpu ]; then
+            ln -s ${curr_path}/rvgpu-cmodel ${qemu_dir}/hw/gpu/rvgpu
+        fi
+
+        if [ ! -d ${build_dir} ]; then
+            mkdir -p ${build_dir}
+
+            pushd ${build_dir}
+                ${qemu_dir}/configure --prefix=${install_dir} --target-list=x86_64-softmmu --enable-kvm
+            popd
+        fi
+        ninja -C ${build_dir} install
+        if [ $? -ne 0 ]; then
+            echo "build qemu failed and exit"
+            exit -1
+        fi
+
+    else
+        echo "qemu is a illegal repos under this project"
+    fi
+    echo "# build QEMU done"
+    echo "####################################################"
+
+}
+
 # main function
 curr_path=${PWD}
 curr_pathname=`basename ${PWD}`
@@ -164,6 +195,10 @@ case ${curr_pathname} in
         cmodel_dir=${curr_path}/rvgpu-cmodel
         build_dir=${curr_path}/build/rvgpu-cmodel
         build_cmodel
+        # build qemu
+        qemu_dir=${curr_path}/qemu
+        build_dir=${curr_path}/build/qemu
+        build_qemu
         ;;
     rvgpu-llvm)
         llvm_dir=${curr_path}
