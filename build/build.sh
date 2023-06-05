@@ -113,9 +113,6 @@ function build_qemu
     echo "# Start build QEMU"
 
     if [ -f ${qemu_dir}/README.rst ]; then
-        if [ ! -d ${qemu_dir}/hw/gpu/rvgpu ]; then
-            ln -s ${curr_path}/rvgpu-cmodel ${qemu_dir}/hw/gpu/rvgpu
-        fi
 
         if [ ! -d ${build_dir} ]; then
             mkdir -p ${build_dir}
