@@ -49,6 +49,7 @@ function build_mesa
 {   
     echo "####################################################"
     echo "# Start build mesa"
+    export PKG_CONFIG_PATH=${install_dir}/lib/pkgconfig:{PKG_CONFIG_PATH}
     
     if [ -f ${mesa_dir}/README.md ]; then
         if [ ! -d ${build_dir} ]; then
@@ -70,6 +71,7 @@ function build_mesa
     else
         echo "rvgpu-mesa is a illegal repos under this project"
     fi
+
     echo "# build mesa done"
     echo "####################################################"
 }
@@ -184,10 +186,6 @@ case ${curr_pathname} in
         llvm_dir=${curr_path}/rvgpu-llvm
         build_dir=${curr_path}/build/rvgpu-llvm
         build_llvm
-        # build mesa
-        mesa_dir=${curr_path}/rvgpu-mesa
-        build_dir=${curr_path}/build/rvgpu-mesa
-        build_mesa
         # build cmodel
         cmodel_dir=${curr_path}/rvgpu-cmodel
         build_dir=${curr_path}/build/rvgpu-cmodel
@@ -196,6 +194,10 @@ case ${curr_pathname} in
         qemu_dir=${curr_path}/qemu
         build_dir=${curr_path}/build/qemu
         build_qemu
+        # build mesa
+        mesa_dir=${curr_path}/rvgpu-mesa
+        build_dir=${curr_path}/build/rvgpu-mesa
+        build_mesa
         ;;
     rvgpu-llvm)
         llvm_dir=${curr_path}
