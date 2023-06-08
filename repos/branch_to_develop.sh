@@ -14,7 +14,7 @@ function checkout_to_branch
     popd
 }
 
-# checkout_to_branch tools main
+checkout_to_branch tools main
 checkout_to_branch docs main
 checkout_to_branch qemu rvgpu
 checkout_to_branch rvgpu-cmodel main
