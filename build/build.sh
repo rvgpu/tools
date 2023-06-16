@@ -87,6 +87,7 @@ function build_llvm
             cmake -S ${llvm_dir}/llvm \
                   -B ${build_dir} \
                   -G "Ninja" \
+                  -DLLVM_ENABLE_RTTI=on \
                   -DCMAKE_INSTALL_PREFIX=${install_dir} \
                   -DCMAKE_BUILD_TYPE=${buildtype} \
                   -DBUILD_SHARED_LIBS=on \
