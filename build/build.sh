@@ -50,6 +50,7 @@ function build_mesa
     echo "####################################################"
     echo "# Start build mesa"
     export PKG_CONFIG_PATH=${install_dir}/lib/pkgconfig:{PKG_CONFIG_PATH}
+    export PATH=${install_dir}/bin/:${PATH}
     
     if [ -f ${mesa_dir}/README.md ]; then
         if [ ! -d ${build_dir} ]; then
@@ -90,7 +91,8 @@ function build_llvm
                   -DLLVM_ENABLE_RTTI=on \
                   -DCMAKE_INSTALL_PREFIX=${install_dir} \
                   -DCMAKE_BUILD_TYPE=${buildtype} \
-                  -DBUILD_SHARED_LIBS=on \
+                  -DBUILD_SHARED_LIBS=off \
+                  -DLLVM_BUILD_LLVM_DYLIB=on \
                   -DLLVM_ENABLE_PROJECTS="clang" \
                   -DLLVM_TARGETS_TO_BUILD=RISCV \
                   -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu"
