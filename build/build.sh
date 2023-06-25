@@ -94,7 +94,7 @@ function build_llvm
                   -DBUILD_SHARED_LIBS=off \
                   -DLLVM_BUILD_LLVM_DYLIB=on \
                   -DLLVM_ENABLE_PROJECTS="clang" \
-                  -DLLVM_TARGET_ARCH="riscv32"
+                  -DLLVM_TARGET_ARCH="riscv32" \
                   -DLLVM_TARGETS_TO_BUILD="RISCV;X86" \
                   -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu"
 
