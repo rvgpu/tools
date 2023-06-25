@@ -49,7 +49,7 @@ function build_mesa
 {   
     echo "####################################################"
     echo "# Start build mesa"
-    export PKG_CONFIG_PATH=${install_dir}/lib/pkgconfig:{PKG_CONFIG_PATH}
+    export PKG_CONFIG_PATH=${install_dir}/lib/pkgconfig:${PKG_CONFIG_PATH}
     export PATH=${install_dir}/bin/:${PATH}
     
     if [ -f ${mesa_dir}/README.md ]; then
@@ -181,6 +181,12 @@ done
 echo "Prams info"
 echo "build type:     ${buildtype}"
 echo "install prefix: ${install_dir}"
+
+if [ -f /etc/redhat-release ]; then
+    source /opt/rh/devtoolset-9/enable
+    source /opt/rh/rh-python38/enable
+    export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:${PKG_CONFIG_PATH}
+fi
 
 # check current path and build project
 case ${curr_pathname} in
