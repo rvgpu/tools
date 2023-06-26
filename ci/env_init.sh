@@ -19,7 +19,7 @@ function install_tools_on_centos
 {
     sudo yum install centos-release-scl
     sudo yum makecache
-    sudo yum install devtoolset-9 rh-python38
+    sudo yum install devtoolset-9 rh-python38 rh-git227
     sudo yum install git ninja-build expat
     sudo yum install openssl-devel gtest-devel glib2-devel pixman-devel expat-devel libXext-devel libXfixes-devel libxshmfence-devel libXxf86vm-devel libXrandr-devel 
 
