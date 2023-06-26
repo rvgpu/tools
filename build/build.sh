@@ -91,15 +91,15 @@ function build_llvm
                   -DLLVM_ENABLE_RTTI=on \
                   -DCMAKE_INSTALL_PREFIX=${install_dir} \
                   -DCMAKE_BUILD_TYPE=${buildtype} \
-                  -DBUILD_SHARED_LIBS=off \
-                  -DLLVM_BUILD_LLVM_DYLIB=on \
+                  -DBUILD_SHARED_LIBS=on \
+                  -DLLVM_BUILD_LLVM_DYLIB=off \
                   -DLLVM_ENABLE_PROJECTS="clang" \
                   -DLLVM_TARGET_ARCH="riscv32" \
                   -DLLVM_TARGETS_TO_BUILD="RISCV;X86" \
                   -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu"
 
         fi
-        cmake --build ${build_dir} 
+        cmake --build ${build_dir} -j ${build_job_num}
         if [ $? -ne 0 ]; then
             echo "build rvgpu-llvm failed and exit"
             exit -1
@@ -144,6 +144,8 @@ function build_qemu
 # main function
 curr_path=${PWD}
 curr_pathname=`basename ${PWD}`
+cpu_nums=`nproc`
+build_job_num=`awk 'BEGIN{printf "%d", '$cpu_nums' * 0.7}'`
 
 install_dir=${curr_path}/install
 buildtype=debug
