@@ -56,7 +56,7 @@ function build_mesa
         if [ ! -d ${build_dir} ]; then
             meson ${build_dir} ${mesa_dir} \
                 -Dprefix=${install_dir} \
-                -Dgallium-drivers=swrast  \
+                -Dgallium-drivers=swrast \
                 -Dvulkan-drivers=rvgpu,swrast \
                 -Dplatforms=x11 \
                 -Dglx=dri \
@@ -94,9 +94,7 @@ function build_llvm
                   -DBUILD_SHARED_LIBS=on \
                   -DLLVM_BUILD_LLVM_DYLIB=off \
                   -DLLVM_ENABLE_PROJECTS="clang" \
-                  -DLLVM_TARGET_ARCH="riscv32" \
-                  -DLLVM_TARGETS_TO_BUILD="RISCV;X86" \
-                  -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu"
+                  -DLLVM_TARGETS_TO_BUILD="RISCV;X86;AMDGPU"
 
         fi
         cmake --build ${build_dir} -j ${build_job_num}
@@ -145,7 +143,7 @@ function build_qemu
 curr_path=${PWD}
 curr_pathname=`basename ${PWD}`
 cpu_nums=`nproc`
-build_job_num=`awk 'BEGIN{printf "%d", '$cpu_nums' * 0.7}'`
+build_job_num=`awk 'BEGIN{printf "%d", '$cpu_nums' * 1}'`
 
 install_dir=${curr_path}/install
 buildtype=debug
