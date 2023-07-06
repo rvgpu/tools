@@ -94,9 +94,7 @@ function build_llvm
                   -DBUILD_SHARED_LIBS=on \
                   -DLLVM_BUILD_LLVM_DYLIB=off \
                   -DLLVM_ENABLE_PROJECTS="clang" \
-                  -DLLVM_TARGET_ARCH="riscv32" \
                   -DLLVM_TARGETS_TO_BUILD="RISCV;X86" \
-                  -DLLVM_DEFAULT_TARGET_TRIPLE="riscv64-unknown-linux-gnu"
 
         fi
         cmake --build ${build_dir} -j ${build_job_num}
