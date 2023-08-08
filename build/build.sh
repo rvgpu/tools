@@ -61,7 +61,8 @@ function build_mesa
                 -Dplatforms=x11 \
                 -Dglx=dri \
                 -Dbuildtype=${buildtype} \
-                -Dlibdir=lib
+                -Dlibdir=lib \
+                -Dtools=rvgpu
         fi
         ninja -C ${build_dir} install
 
@@ -93,8 +94,9 @@ function build_llvm
                   -DCMAKE_BUILD_TYPE=${buildtype} \
                   -DBUILD_SHARED_LIBS=on \
                   -DLLVM_BUILD_LLVM_DYLIB=off \
-                  -DLLVM_ENABLE_PROJECTS="clang" \
-                  -DLLVM_TARGETS_TO_BUILD="AMDGPU;RISCV;X86" \
+                  -DLLVM_ENABLE_PROJECTS="clang;lld" \
+                  -DLLVM_USE_LINKER=lld \
+                  -DLLVM_TARGETS_TO_BUILD="AMDGPU;RISCV;X86"
 
         fi
         cmake --build ${build_dir} -j ${build_job_num}
