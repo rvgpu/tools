@@ -49,7 +49,6 @@ function build_mesa
 {   
     echo "####################################################"
     echo "# Start build mesa"
-    export PKG_CONFIG_PATH=${install_dir}/lib/pkgconfig:${PKG_CONFIG_PATH}
     export PATH=${install_dir}/bin/:${PATH}
     
     if [ -f ${mesa_dir}/README.md ]; then
@@ -190,6 +189,7 @@ if [ -f /etc/redhat-release ]; then
     export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:${PKG_CONFIG_PATH}
 fi
 
+export PKG_CONFIG_PATH=${install_dir}/lib/pkgconfig:${PKG_CONFIG_PATH}
 # check current path and build project
 case ${curr_pathname} in
     rvgpu)
