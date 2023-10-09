@@ -205,11 +205,11 @@ case ${curr_pathname} in
         # build qemu
         qemu_dir=${curr_path}/qemu
         build_dir=${curr_path}/build/qemu
-        build_qemu
+        # build_qemu
         # build mesa
         mesa_dir=${curr_path}/rvgpu-mesa
         build_dir=${curr_path}/build/rvgpu-mesa
-        build_mesa
+        # build_mesa
         ;;
     rvgpu-llvm)
         llvm_dir=${curr_path}
