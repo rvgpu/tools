@@ -22,6 +22,29 @@ function print_help
     echo "      --release    : 指定构建为release模式，默认是debug"
 }
 
+function build_gvm
+{
+    echo "####################################################"
+    echo "# Start build GVM"
+    if [ -f ${gvm_dir}/README.md ]; then
+        if [ ! -d ${build_dir} ]; then
+            mkdir -p ${build_dir} 
+            cmake -B ${build_dir} ${gvm_dir} -DCMAKE_INSTALL_PREFIX=${install_dir} -DCMAKE_BUILD_TYPE=${buildtype}
+        fi
+        cmake --build ${build_dir}
+        if [ $? -ne 0 ]; then
+            echo "build gvm failed and exit"
+            exit -1
+        fi
+
+        cmake --install ${build_dir}
+    else
+        echo "GVM is a illegal repos under this project"
+    fi
+    echo "# build GVM done"
+    echo "####################################################"
+}
+
 function build_cmodel
 {   
     echo "####################################################"
@@ -194,22 +217,26 @@ export PKG_CONFIG_PATH=${install_dir}/lib/pkgconfig:${PKG_CONFIG_PATH}
 case ${curr_pathname} in
     rvgpu)
         echo "Build All projects under rvgpu"
-        # build llvm
+        echo "Build LLVM"
         llvm_dir=${curr_path}/rvgpu-llvm
         build_dir=${curr_path}/build/rvgpu-llvm
         build_llvm
-        # build cmodel
+        echo "Build C Model"
         cmodel_dir=${curr_path}/rvgpu-cmodel
         build_dir=${curr_path}/build/rvgpu-cmodel
         build_cmodel
-        # build qemu
+        echo "Build Qemu"
         qemu_dir=${curr_path}/qemu
         build_dir=${curr_path}/build/qemu
         # build_qemu
-        # build mesa
+        echo "Build Mesa"
         mesa_dir=${curr_path}/rvgpu-mesa
         build_dir=${curr_path}/build/rvgpu-mesa
         # build_mesa
+        echo "Build GVM"
+        gvm_dir=${curr_path}/gvm
+        build_dir=${curr_path}/build/gvm
+        build_gvm
         ;;
     rvgpu-llvm)
         llvm_dir=${curr_path}
