@@ -117,7 +117,6 @@ function build_llvm
                   -DBUILD_SHARED_LIBS=on \
                   -DLLVM_BUILD_LLVM_DYLIB=off \
                   -DLLVM_ENABLE_PROJECTS="clang;lld" \
-                  -DLLVM_USE_LINKER=lld \
                   -DLLVM_TARGETS_TO_BUILD="AMDGPU;RISCV;X86"
 
         fi
