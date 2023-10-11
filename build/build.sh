@@ -206,7 +206,7 @@ echo "build type:     ${buildtype}"
 echo "install prefix: ${install_dir}"
 
 if [ -f /etc/redhat-release ]; then
-    source /opt/rh/devtoolset-9/enable
+    source /opt/rh/devtoolset-11/enable
     source /opt/rh/rh-python38/enable
     export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:${PKG_CONFIG_PATH}
 fi
