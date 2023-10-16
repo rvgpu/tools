@@ -31,7 +31,7 @@ function build_gvm
             mkdir -p ${build_dir} 
             cmake -B ${build_dir} ${gvm_dir} -DCMAKE_INSTALL_PREFIX=${install_dir} -DCMAKE_BUILD_TYPE=${buildtype}
         fi
-        cmake --build ${build_dir}
+        cmake --build ${build_dir} -j ${build_job_num}
         if [ $? -ne 0 ]; then
             echo "build gvm failed and exit"
             exit -1
@@ -54,7 +54,7 @@ function build_cmodel
             mkdir -p ${build_dir} 
             cmake -B ${build_dir} ${cmodel_dir} -DCMAKE_INSTALL_PREFIX=${install_dir} -DCMAKE_BUILD_TYPE=${buildtype}
         fi
-        cmake --build ${build_dir}
+        cmake --build ${build_dir} -j ${build_job_num}
         if [ $? -ne 0 ]; then
             echo "build rvgpu-sim failed and exit"
             exit -1
