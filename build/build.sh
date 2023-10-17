@@ -18,8 +18,9 @@ function print_help
 {
     echo "Usage:" 
     echo "  /tools/build/build.sh [options]"
-    echo "      --prefix dir : 指定安装路径，默认是./install"
-    echo "      --release    : 指定构建为release模式，默认是debug"
+    echo "      --prefix dir    : 指定安装路径，默认是./install"
+    echo "      --builddir dir  : 指定构建路径"
+    echo "      --release       : 指定构建为release模式，默认是debug"
 }
 
 function build_gvm
@@ -57,6 +58,11 @@ function build_cmodel
         cmake --build ${build_dir} -j ${build_job_num}
         if [ $? -ne 0 ]; then
             echo "build rvgpu-sim failed and exit"
+            exit -1
+        fi
+        ctest --test-dir ${build_dir}
+        if [ $? -ne 0 ]; then
+            echo "run rvgpu-sim unit test failed and exit"
             exit -1
         fi
 
@@ -169,10 +175,11 @@ cpu_nums=`nproc`
 build_job_num=`awk 'BEGIN{printf "%d", '$cpu_nums' * 0.7}'`
 
 install_dir=${curr_path}/install
+build_prefix_dir=${curr_path}/build
 buildtype=debug
 
 ## Parse Options
-OPTIONS=`getopt -o h --long help,release,prefix: -n 'example.bash' -- "$@"`
+OPTIONS=`getopt -o h --long help,release,prefix:,builddir: -n 'build.sh' -- "$@"`
 
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
 
@@ -191,6 +198,9 @@ while true; do
         --prefix) 
             install_dir=$2
             shift 2 ;;
+        --builddir)
+            build_prefix_dir=$2
+            shift 2 ;;
         --) 
             shift
             break;;
@@ -204,6 +214,7 @@ done
 echo "Prams info"
 echo "build type:     ${buildtype}"
 echo "install prefix: ${install_dir}"
+echo "build dir:      ${build_prefix_dir}"
 
 if [ -f /etc/redhat-release ]; then
     source /opt/rh/devtoolset-11/enable
@@ -218,38 +229,38 @@ case ${curr_pathname} in
         echo "Build All projects under rvgpu"
         echo "Build LLVM"
         llvm_dir=${curr_path}/rvgpu-llvm
-        build_dir=${curr_path}/build/rvgpu-llvm
+        build_dir=${build_prefix_dir}/rvgpu-llvm
         build_llvm
         echo "Build C Model"
         cmodel_dir=${curr_path}/rvgpu-cmodel
-        build_dir=${curr_path}/build/rvgpu-cmodel
+        build_dir=${build_prefix_dir}/rvgpu-cmodel
         build_cmodel
         echo "Build Qemu"
         qemu_dir=${curr_path}/qemu
-        build_dir=${curr_path}/build/qemu
+        build_dir=${build_prefix_dir}/qemu
         # build_qemu
         echo "Build Mesa"
         mesa_dir=${curr_path}/rvgpu-mesa
-        build_dir=${curr_path}/build/rvgpu-mesa
+        build_dir=${build_prefix_dir}/rvgpu-mesa
         # build_mesa
         echo "Build GVM"
         gvm_dir=${curr_path}/gvm
-        build_dir=${curr_path}/build/gvm
+        build_dir=${build_prefix_dir}/gvm
         build_gvm
         ;;
     rvgpu-llvm)
         llvm_dir=${curr_path}
-        build_dir=${curr_path}/build
+        build_dir=${build_prefix_dir}
         build_llvm
         ;;
     rvgpu-mesa)
         mesa_dir=${curr_path}
-        build_dir=${curr_path}/build
+        build_dir=${build_prefix_dir}
         build_mesa
         ;;
     rvgpu-cmodel)
         cmodel_dir=${curr_path}
-        build_dir=${curr_path}/build
+        build_dir=${build_prefix_dir}
         build_cmodel
         ;;
     *)
