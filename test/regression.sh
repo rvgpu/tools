@@ -27,7 +27,7 @@ if [ $curr_dirname == "rvgpu" ]; then
     mkdir -p ${curr_path}/regression/tb
     pushd ${curr_path}/regression/tb
         cmake ${curr_path}/cuda_testbench
-        cmake --build .
+        make -j ${cpu_nums}
         echo $LD_LIBRARY_PATH
         make test
     popd
