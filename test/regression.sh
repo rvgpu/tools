@@ -24,6 +24,7 @@ if [ $curr_dirname == "rvgpu" ]; then
 
     which clang++
 
+    rm -rf ${curr_path}/regression/tb
     mkdir -p ${curr_path}/regression/tb
     pushd ${curr_path}/regression/tb
         cmake ${curr_path}/cuda_testbench
