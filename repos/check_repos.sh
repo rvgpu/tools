@@ -5,9 +5,9 @@ branch_gvm="main"
 
 is_sync_to_server() {
     local_branch=$1
-    remote_branch=$2
+    remote_branch="origin/$2"
 
-    if [ ${local_branch} != ${remote_branch} ]; then
+    if [ ${local_branch} != $2 ]; then
         return 1
     fi
 
@@ -29,9 +29,8 @@ check_repos() {
     pushd $1 > /dev/null
         curr_repo=`basename ${PWD}`
         local_branch=$(git rev-parse --abbrev-ref HEAD)
-        remote_branch=$2
 
-        is_sync_to_server ${local_branch} ${remote_branch}
+        is_sync_to_server ${local_branch} $2
         if [ $? -eq 0 ]; then
             print_result ${curr_repo} ${local_branch} OK
         else
