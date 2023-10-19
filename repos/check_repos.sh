@@ -5,14 +5,15 @@ branch_gvm="main"
 
 is_sync_to_server() {
     local_branch=$1
-    remote_branch="origin/$2"
+    remote_branch=$2
 
-    if [ ${local_branch} != $2 ]; then
+    if [ ${local_branch} != "${remote_branch}" ]; then
         return 1
     fi
 
+    git fetch origin "${remote_branch}" > /dev/null 2>&1
     local_commit=$(git rev-parse HEAD)
-    remote_commit=$(git rev-parse $remote_branch)
+    remote_commit=$(git rev-parse "origin/$remote_branch")
 
     if [ "$local_commit" == "$remote_commit" ]; then
         return 0
