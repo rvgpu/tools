@@ -1,7 +1,8 @@
 #!/bin/bash
 
-branch_rvgpu="main"
-branch_gvm="main"
+print_result() {
+    printf "| %-15s | %-20s | %-20s |\n" "$1" "$2" "$3"
+}
 
 is_sync_to_server() {
     local_branch=$1
@@ -11,7 +12,6 @@ is_sync_to_server() {
         return 1
     fi
 
-    git fetch origin "${remote_branch}" > /dev/null 2>&1
     local_commit=$(git rev-parse HEAD)
     remote_commit=$(git rev-parse "origin/$remote_branch")
 
@@ -20,10 +20,6 @@ is_sync_to_server() {
     else
         return 1
     fi
-}
-
-print_result() {
-    printf "| %-15s | %-20s | %-20s |\n" "$1" "$2" "$3"
 }
 
 check_repos() {
@@ -40,15 +36,40 @@ check_repos() {
     popd     > /dev/null
 }
 
+fetch_remote() {
+    pushd $1 > /dev/null
+        curr_repo=`basename ${pwd}`
+        remote_branch=$2
+
+        git fetch origin "${remote_branch}" > /dev/null 2>&1
+    popd
+}
+
+rvgpu_b="main"
+gvm_b="main"
+llvm_b="rvgpu"
+cudatb_b="main"
+tools_b="main"
+docs_b="main"
+
+fetch_remote_repos() {
+    fetch_remote ./              ${rvgpu_b}
+    fetch_remote gvm             ${gvm_b}
+    fetch_remote rvgpu-llvm      ${llvm_b}
+    fetch_remote cuda_testbench  ${cudatb_b}
+    fetch_remote tools           ${tools_b}
+    fetch_remote docs            ${docs_b}
+}
+
 echo "+-----------------+----------------------+----------------------+"
-echo "| repository      | current branch       | compare to server    |"
+echo "| repository      | current branch       | compare to remote    |"
 echo "+-----------------+----------------------+----------------------+"
 
-check_repos ./              main
-check_repos gvm             main
-check_repos rvgpu-llvm      rvgpu
-check_repos cuda_testbench  main
-check_repos tools           main
-check_repos docs            main
+check_repos ./              ${rvgpu_b}
+check_repos gvm             ${gvm_b}
+check_repos rvgpu-llvm      ${llvm_b}
+check_repos cuda_testbench  ${cudatb_b}
+check_repos tools           ${tools_b}
+check_repos docs            ${docs_b}
 
 echo "+-----------------+----------------------+----------------------+"
