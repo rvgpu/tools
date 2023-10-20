@@ -1,5 +1,12 @@
 #!/bin/bash
 
+rvgpu_b="main"
+gvm_b="main"
+llvm_b="rvgpu"
+cudatb_b="main"
+tools_b="main"
+docs_b="main"
+
 print_result() {
     printf "| %-15s | %-20s | %-20s |\n" "$1" "$2" "$3"
 }
@@ -13,7 +20,7 @@ is_sync_to_server() {
     fi
 
     local_commit=$(git rev-parse HEAD)
-    remote_commit=$(git rev-parse "origin/$remote_branch")
+    remote_commit=$(git rev-parse FETCH_HEAD)
 
     if [ "$local_commit" == "$remote_commit" ]; then
         return 0
@@ -38,19 +45,12 @@ check_repos() {
 
 fetch_remote() {
     pushd $1 > /dev/null
-        curr_repo=`basename ${pwd}`
+        curr_repo=`basename ${PWD}`
         remote_branch=$2
 
         git fetch origin "${remote_branch}" > /dev/null 2>&1
-    popd
+    popd     > /dev/null
 }
-
-rvgpu_b="main"
-gvm_b="main"
-llvm_b="rvgpu"
-cudatb_b="main"
-tools_b="main"
-docs_b="main"
 
 fetch_remote_repos() {
     fetch_remote ./              ${rvgpu_b}
@@ -60,6 +60,8 @@ fetch_remote_repos() {
     fetch_remote tools           ${tools_b}
     fetch_remote docs            ${docs_b}
 }
+
+fetch_remote_repos
 
 echo "+-----------------+----------------------+----------------------+"
 echo "| repository      | current branch       | compare to remote    |"
