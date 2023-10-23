@@ -16,7 +16,10 @@ function checkout_to_branch
 
 checkout_to_branch tools main
 checkout_to_branch docs main
-checkout_to_branch qemu rvgpu
+checkout_to_branch gvm main
+checkout_to_branch cuda_testbench main
 checkout_to_branch rvgpu-cmodel main
+
+checkout_to_branch qemu rvgpu
 checkout_to_branch rvgpu-llvm rvgpu
-checkout_to_branch rvgpu-mesa rvgpu 
+checkout_to_branch rvgpu-mesa rvgpu
