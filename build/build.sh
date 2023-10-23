@@ -122,8 +122,12 @@ function build_llvm
                   -DCMAKE_BUILD_TYPE=${buildtype} \
                   -DBUILD_SHARED_LIBS=on \
                   -DLLVM_BUILD_LLVM_DYLIB=off \
-                  -DLLVM_ENABLE_PROJECTS="clang;lld" \
-                  -DLLVM_TARGETS_TO_BUILD="RISCV;X86"
+                  -DLLVM_ENABLE_PROJECTS="clang;lld;compiler-rt" \
+                  -DLLVM_TARGETS_TO_BUILD="RISCV;X86"   \
+                  -DLLVM_ENABLE_RUNTIMES="libc"       \
+                  -DLIBC_GPU_BUILD=ON   \
+                  -DLIBC_GPU_ARCHITECTURES=riscv64
+                  
 
         fi
         cmake --build ${build_dir} -j ${build_job_num}
