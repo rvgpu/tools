@@ -242,7 +242,7 @@ case ${curr_pathname} in
         echo "Build Qemu"
         qemu_dir=${curr_path}/qemu
         build_dir=${build_prefix_dir}/qemu
-        # build_qemu
+        build_qemu
         echo "Build Mesa"
         mesa_dir=${curr_path}/rvgpu-mesa
         build_dir=${build_prefix_dir}/rvgpu-mesa
