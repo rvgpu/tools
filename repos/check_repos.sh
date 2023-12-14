@@ -5,6 +5,7 @@ gvm_b="main"
 llvm_b="rvgpu"
 cmodel_b="main"
 cudatb_b="main"
+qemu_b="rvgpu"
 tools_b="main"
 docs_b="main"
 
@@ -59,6 +60,7 @@ fetch_remote_repos() {
     fetch_remote rvgpu-llvm      ${llvm_b}
     fetch_remote rvgpu-cmodel    ${cmodel_b}
     fetch_remote cuda_testbench  ${cudatb_b}
+    fetch_remote qemu            ${qemu_b}
     fetch_remote tools           ${tools_b}
     fetch_remote docs            ${docs_b}
 }
@@ -74,6 +76,7 @@ check_repos gvm             ${gvm_b}
 check_repos rvgpu-llvm      ${llvm_b}
 check_repos rvgpu-cmodel    ${cmodel_b}
 check_repos cuda_testbench  ${cudatb_b}
+check_repos qemu            ${qemu_b}
 check_repos tools           ${tools_b}
 check_repos docs            ${docs_b}
 
