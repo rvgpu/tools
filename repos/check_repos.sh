@@ -2,7 +2,7 @@
 
 rvgpu_b="main"
 gvm_b="main"
-llvm_b="rvgpu"
+llvm_b="ss"
 cmodel_b="main"
 cudatb_b="main"
 qemu_b="rvgpu"
@@ -38,9 +38,9 @@ check_repos() {
 
         is_sync_to_server ${local_branch} $2
         if [ $? -eq 0 ]; then
-            print_result ${curr_repo} ${local_branch} OK
+            print_result ${curr_repo} ${local_branch} "OK ($2)"
         else
-            print_result ${curr_repo} ${local_branch} "Not Sync"
+            print_result ${curr_repo} ${local_branch} "Not Sync ($2)"
         fi
     popd     > /dev/null
 }
