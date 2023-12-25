@@ -123,7 +123,7 @@ function build_llvm
                   -DBUILD_SHARED_LIBS=on \
                   -DLLVM_BUILD_LLVM_DYLIB=off \
                   -DLLVM_ENABLE_PROJECTS="clang;lld;compiler-rt" \
-                  -DLLVM_TARGETS_TO_BUILD="RISCV;X86"
+                  -DLLVM_TARGETS_TO_BUILD="RVGPU;X86"
         fi
         cmake --build ${build_dir} -j ${build_job_num}
         if [ $? -ne 0 ]; then
