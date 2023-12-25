@@ -21,5 +21,5 @@ checkout_to_branch cuda_testbench main
 checkout_to_branch rvgpu-cmodel main
 
 checkout_to_branch qemu rvgpu
-checkout_to_branch rvgpu-llvm rvgpu
+checkout_to_branch rvgpu-llvm ss
 checkout_to_branch rvgpu-mesa rvgpu
