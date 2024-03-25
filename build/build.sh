@@ -30,7 +30,7 @@ function build_gvm
     if [ -f ${gvm_dir}/README.md ]; then
         if [ ! -d ${build_dir} ]; then
             mkdir -p ${build_dir} 
-            cmake -B ${build_dir} ${gvm_dir} -DCMAKE_INSTALL_PREFIX=${install_dir} -DCMAKE_BUILD_TYPE=${buildtype}
+            PATH=${install_dir}/bin:${PATH} cmake -B ${build_dir} ${gvm_dir} -DCMAKE_INSTALL_PREFIX=${install_dir} -DCMAKE_BUILD_TYPE=${buildtype}
         fi
         cmake --build ${build_dir} -j ${build_job_num}
         if [ $? -ne 0 ]; then
