@@ -1,5 +1,5 @@
 #! /bin/bash
-# 
+# 这个脚本用来将仓库同步到github，使用之前先使用gh auth login登录
 
 repos=(  'cuda_testbench' 'docs' 'gvm'  'kmod-drv' 'qemu'  'rvgpu-cmodel' 'rvgpu-llvm' 'rvgpu-mesa' 'tools')
 branchs=('main'           'main' 'main' 'main'     'rvgpu' 'main'         'zac1'       'rvgpu'      'main')
