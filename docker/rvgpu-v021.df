@@ -11,8 +11,9 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86
 
 RUN apt-get update && apt-get install -y --no-install-recommends cuda && rm -rf /var/lib/apt/lists/*  
 
+RUN apt-get update && apt-get install -y vim gdb && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /root
 
 # clone v0.2.1版本的rvgpu
-RUN git clone https://gitee.com/rvgpu/rvgpu.git; cd rvgpu; git checkout -b v0.2.1 tags/v0.2.1; git submodule init; git submodule update
-
+# RUN git clone https://gitee.com/rvgpu/rvgpu.git; cd rvgpu; git checkout -b v0.2.1 tags/v0.2.1; git submodule init; git submodule update
